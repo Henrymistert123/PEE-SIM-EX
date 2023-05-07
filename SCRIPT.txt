@@ -8,9 +8,9 @@ local Fire, Invoke = Network.Fire, Network.Invoke
 -- Hooking the _check function in the module to bypass the anticheat.
 
 local old
-old = hookfunction(getupvalue(Fire, 1), pcall(function(...)
+old = hookfunction(getupvalue(Fire, 1), function(...)
    return true
-end))
+end)
 
 local v1 = require(game.ReplicatedStorage:WaitForChild("Framework"):WaitForChild("Library"));
 while not v1.Loaded do
@@ -3125,3 +3125,5 @@ AutoIndexSection:AddButton({
 })
 coroutine.resume(dupedeleteco)
 OrionLib:Init()
+
+
