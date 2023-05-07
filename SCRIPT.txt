@@ -233,7 +233,6 @@ local banSuccess, banError = pcall(function()
 	end
 
 function FrTeleportToWorld(world, area)
-    function myCoroutine(arg1, arg2)
         local Library = require(game:GetService("ReplicatedStorage").Library)
 		Library.WorldCmds.Load(arg1)
 		wait(0.25)
@@ -246,21 +245,14 @@ function FrTeleportToWorld(world, area)
 		Character:PivotTo(areaTeleport.CFrame + areaTeleport.CFrame.UpVector * (Humanoid.HipHeight + HumanoidRootPart.Size.Y / 2))
 		Library.Network.Fire("Performed Teleport", arg2)
 		task.wait(0.25)
-    end
-
-    co1 = coroutine.wrap(function(arg3, arg4)
-        myCoroutine(arg3, arg4)
-    end)
-
-    co1(world, area)
 end
 function FrTeleportToArea(world, area)
-    local newMap = game:GetService('Workspace')["__MAP"].Teleports[area]
-    local cframe = newMap.CFrame
-    local localPlr = game.Players.LocalPlayer
-    local character = localPlr.Character or LocalPlayer.CharacterAdded:Wait()
-    local humanoid = character:WaitForChild("Humanoid")
-    local hrp = character:WaitForChild("HumanoidRootPart")
+    local areaTeleport = Library.WorldCmds.GetMap().Teleports:FindFirstChild(arg2)
+		local Character = game.Players.LocalPlayer.Character
+		local Humanoid = Character.Humanoid
+		local HumanoidRootPart = Character.HumanoidRootPart
+		Character:PivotTo(areaTeleport.CFrame + areaTeleport.CFrame.UpVector * (Humanoid.HipHeight + HumanoidRootPart.Size.Y / 2))
+		Library.Network.Fire("Performed Teleport", arg2)
     
 end
 
