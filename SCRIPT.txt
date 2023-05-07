@@ -125,11 +125,8 @@ function FrTeleportToWorld(world, area)
         
             
             GL.WorldCmds.Load(wtp)
-            local newMap = game:GetService('Workspace')["__MAP"].Teleports[mtp]
-            wait(3)
-            local cframe = newMap.CFrame
-            print(cframe)
-            character:PivotTo(cframe + cframe.UpVector * (humanoid.HipHeight + hrp.Size.Y /2))
+            
+            
             Invoke('Force Teleport', WorldTP)
         
             
@@ -160,7 +157,7 @@ function FrTeleportToArea(world, area)
     local character = localPlr.Character or LocalPlayer.CharacterAdded:Wait()
     local humanoid = character:WaitForChild("Humanoid")
     local hrp = character:WaitForChild("HumanoidRootPart")
-    character:PivotTo(cframe + cframe.UpVector * (humanoid.HipHeight + hrp.Size.Y /2))
+    
 end
 
 function indexbank()
@@ -433,11 +430,11 @@ function fruitfarm()
             
                 
                 GL.WorldCmds.Load(wtp)
-                local newMap = game:GetService('Workspace')["__MAP"].Teleports[mtp]
+                
                 wait(3)
                 local cframe = newMap.CFrame
                 print(cframe)
-                character:PivotTo(cframe + cframe.UpVector * (humanoid.HipHeight + hrp.Size.Y /2))
+                
                 Invoke('Force Teleport', WorldTP)
             
                 
@@ -468,7 +465,7 @@ function fruitfarm()
         local character = localPlr.Character or LocalPlayer.CharacterAdded:Wait()
         local humanoid = character:WaitForChild("Humanoid")
         local hrp = character:WaitForChild("HumanoidRootPart")
-        character:PivotTo(cframe + cframe.UpVector * (humanoid.HipHeight + hrp.Size.Y /2))
+        
     end
     
     game.Players.LocalPlayer.PlayerGui.Inventory.Enabled = true
@@ -1240,11 +1237,11 @@ function pfarm()
             
                 
                 GL.WorldCmds.Load(wtp)
-                local newMap = game:GetService('Workspace')["__MAP"].Teleports[mtp]
+                
                 wait(3)
                 local cframe = newMap.CFrame
                 print(cframe)
-                character:PivotTo(cframe + cframe.UpVector * (humanoid.HipHeight + hrp.Size.Y /2))
+                
                 Invoke('Force Teleport', WorldTP)
             
                 
@@ -1275,7 +1272,7 @@ function pfarm()
         local character = localPlr.Character or LocalPlayer.CharacterAdded:Wait()
         local humanoid = character:WaitForChild("Humanoid")
         local hrp = character:WaitForChild("HumanoidRootPart")
-        character:PivotTo(cframe + cframe.UpVector * (humanoid.HipHeight + hrp.Size.Y /2))
+        
     end
     
     game.Players.LocalPlayer.PlayerGui.Inventory.Enabled = true
@@ -1919,11 +1916,11 @@ function autobeatgame()
             
                 
                 GL.WorldCmds.Load(wtp)
-                local newMap = game:GetService('Workspace')["__MAP"].Teleports[mtp]
+                
                 wait(3)
                 local cframe = newMap.CFrame
                 print(cframe)
-                character:PivotTo(cframe + cframe.UpVector * (humanoid.HipHeight + hrp.Size.Y /2))
+                
                 Invoke('Force Teleport', WorldTP)
             
                 
@@ -2028,7 +2025,7 @@ function autobeatgame()
         local character = localPlr.Character or LocalPlayer.CharacterAdded:Wait()
         local humanoid = character:WaitForChild("Humanoid")
         local hrp = character:WaitForChild("HumanoidRootPart")
-        character:PivotTo(cframe + cframe.UpVector * (humanoid.HipHeight + hrp.Size.Y /2))
+        
     end
     function GetPlayerCash(coin)
         amountstr = game.Players.LocalPlayer.PlayerGui.Main.Right[coin].Amount.Text
