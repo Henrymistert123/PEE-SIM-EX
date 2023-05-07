@@ -98,28 +98,7 @@ Settings = {
 
 function FrTeleportToWorld(world, area)
     function myCoroutine(arg1, arg2)
-        local Blunder = require(game:GetService("ReplicatedStorage"):FindFirstChild("BlunderList", true))
-        local OldGet = Blunder.getAndClear
         
-        setreadonly(Blunder, false)
-        
-        local function OutputData(Message)
-           rconsoleprint("@@RED@@")
-           rconsoleprint(Message .. "\n")
-        end
-        
-        Blunder.getAndClear = function(...)
-           local Packet = ...
-           
-           for i,v in next, Packet.list do
-               if v.message ~= "PING" then
-                   OutputData(v.message)
-                   table.remove(Packet.list, i)
-               end
-           end
-           
-           return OldGet(Packet)
-        end
         
         
         
@@ -144,10 +123,10 @@ function FrTeleportToWorld(world, area)
         function TPtoMap(wtp,mtp)
         local succ, err = pcall(function()
         
-            syn_context_set(2)
+            
             GL.WorldCmds.Load(wtp)
             local newMap = game:GetService('Workspace')["__MAP"].Teleports[mtp]
-            syn_context_set(7)
+            wait(3)
             local cframe = newMap.CFrame
             print(cframe)
             character:PivotTo(cframe + cframe.UpVector * (humanoid.HipHeight + hrp.Size.Y /2))
@@ -452,10 +431,10 @@ function fruitfarm()
             function TPtoMap(wtp,mtp)
             local succ, err = pcall(function()
             
-                syn_context_set(2)
+                
                 GL.WorldCmds.Load(wtp)
                 local newMap = game:GetService('Workspace')["__MAP"].Teleports[mtp]
-                syn_context_set(7)
+                wait(3)
                 local cframe = newMap.CFrame
                 print(cframe)
                 character:PivotTo(cframe + cframe.UpVector * (humanoid.HipHeight + hrp.Size.Y /2))
@@ -1259,10 +1238,10 @@ function pfarm()
             function TPtoMap(wtp,mtp)
             local succ, err = pcall(function()
             
-                syn_context_set(2)
+                
                 GL.WorldCmds.Load(wtp)
                 local newMap = game:GetService('Workspace')["__MAP"].Teleports[mtp]
-                syn_context_set(7)
+                wait(3)
                 local cframe = newMap.CFrame
                 print(cframe)
                 character:PivotTo(cframe + cframe.UpVector * (humanoid.HipHeight + hrp.Size.Y /2))
@@ -1938,10 +1917,10 @@ function autobeatgame()
             function TPtoMap(wtp,mtp)
             local succ, err = pcall(function()
             
-                syn_context_set(2)
+                
                 GL.WorldCmds.Load(wtp)
                 local newMap = game:GetService('Workspace')["__MAP"].Teleports[mtp]
-                syn_context_set(7)
+                wait(3)
                 local cframe = newMap.CFrame
                 print(cframe)
                 character:PivotTo(cframe + cframe.UpVector * (humanoid.HipHeight + hrp.Size.Y /2))
