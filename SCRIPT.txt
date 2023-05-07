@@ -127,7 +127,7 @@ function FrTeleportToWorld(world, area)
             GL.WorldCmds.Load(wtp)
             
             
-            Invoke('Force Teleport', WorldTP)
+            
         
             
              
@@ -431,11 +431,7 @@ function fruitfarm()
                 
                 GL.WorldCmds.Load(wtp)
                 
-                wait(3)
-                local cframe = newMap.CFrame
-                print(cframe)
                 
-                Invoke('Force Teleport', WorldTP)
             
                 
                  
@@ -1242,7 +1238,7 @@ function pfarm()
                 local cframe = newMap.CFrame
                 print(cframe)
                 
-                Invoke('Force Teleport', WorldTP)
+                
             
                 
                  
@@ -1921,7 +1917,7 @@ function autobeatgame()
                 local cframe = newMap.CFrame
                 print(cframe)
                 
-                Invoke('Force Teleport', WorldTP)
+                
             
                 
                  
