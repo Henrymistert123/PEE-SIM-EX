@@ -98,50 +98,18 @@ Settings = {
 
 function FrTeleportToWorld(world, area)
     function myCoroutine(arg1, arg2)
-        
-        
-        
-        
-        local Network = require(game:GetService("ReplicatedStorage").Library.Client.Network)
-        local Fire, Invoke = Network.Fire, Network.Invoke
-        
-        local GL = require(game:GetService("ReplicatedStorage").Framework.Library)
-        local localPlr = game.Players.LocalPlayer
-        local character = localPlr.Character or LocalPlayer.CharacterAdded:Wait()
-        local humanoid = character:WaitForChild("Humanoid")
-        
-        local library = game:GetService("ReplicatedStorage"):WaitForChild("Library");
-        local NetworkVariables = require(library.Variables)
-        local hrp = character:WaitForChild("HumanoidRootPart")
-        
-        GL.Variables.Teleporting = false;
-        
-        
-        
-        
-
-        function TPtoMap(wtp,mtp)
-        local succ, err = pcall(function()
-        
-            
-            GL.WorldCmds.Load(wtp)
-            
-            
-            
-        
-            
-             
-        end)
-        
-        
-        if err then 
-        print(err)
-        end
-        
-        end
-        print("Coroutine started with arguments:", arg1, arg2)
-        TPtoMap(arg1, arg2)
-        Invoke('Request World', arg1)
+        local Library = require(game:GetService("ReplicatedStorage").Library)
+		Library.WorldCmds.Load(arg1)
+		wait(0.25)
+		local areaTeleport = Library.WorldCmds.GetMap().Teleports:FindFirstChild(arg2)
+		Library.Signal.Fire("Teleporting")
+		task.wait(0.25)
+		local Character = game.Players.LocalPlayer.Character
+		local Humanoid = Character.Humanoid
+		local HumanoidRootPart = Character.HumanoidRootPart
+		Character:PivotTo(areaTeleport.CFrame + areaTeleport.CFrame.UpVector * (Humanoid.HipHeight + HumanoidRootPart.Size.Y / 2))
+		Library.Network.Fire("Performed Teleport", arg2)
+		task.wait(0.25)
     end
 
     co1 = coroutine.wrap(function(arg3, arg4)
@@ -380,89 +348,7 @@ function fruitfarm()
         coroutine.resume(foreverpickup)
     end
     
-    function FrTeleportToWorld(world, area)
-        function myCoroutine(arg1, arg2)
-            local Blunder = require(game:GetService("ReplicatedStorage"):FindFirstChild("BlunderList", true))
-            local OldGet = Blunder.getAndClear
-            
-            setreadonly(Blunder, false)
-            
-            local function OutputData(Message)
-               rconsoleprint("@@RED@@")
-               rconsoleprint(Message .. "\n")
-            end
-            
-            Blunder.getAndClear = function(...)
-               local Packet = ...
-               
-               for i,v in next, Packet.list do
-                   if v.message ~= "PING" then
-                       OutputData(v.message)
-                       table.remove(Packet.list, i)
-                   end
-               end
-               
-               return OldGet(Packet)
-            end
-            
-            
-            
-            local Network = require(game:GetService("ReplicatedStorage").Library.Client.Network)
-            local Fire, Invoke = Network.Fire, Network.Invoke
-            
-            local GL = require(game:GetService("ReplicatedStorage").Framework.Library)
-            local localPlr = game.Players.LocalPlayer
-            local character = localPlr.Character or LocalPlayer.CharacterAdded:Wait()
-            local humanoid = character:WaitForChild("Humanoid")
-            
-            local library = game:GetService("ReplicatedStorage"):WaitForChild("Library");
-            local NetworkVariables = require(library.Variables)
-            local hrp = character:WaitForChild("HumanoidRootPart")
-            
-            GL.Variables.Teleporting = false;
-            
-            
-            
-            
-
-            function TPtoMap(wtp,mtp)
-            local succ, err = pcall(function()
-            
-                
-                GL.WorldCmds.Load(wtp)
-                
-                
-            
-                
-                 
-            end)
-            
-            
-            if err then 
-            print(err)
-            end
-            
-            end
-            print("Coroutine started with arguments:", arg1, arg2)
-            TPtoMap(arg1, arg2)
-            Invoke('Request World', arg1)
-        end
     
-        co1 = coroutine.wrap(function(arg3, arg4)
-            myCoroutine(arg3, arg4)
-        end)
-    
-        co1(world, area)
-    end
-    function FrTeleportToArea(world, area)
-        local newMap = game:GetService('Workspace')["__MAP"].Teleports[area]
-        local cframe = newMap.CFrame
-        local localPlr = game.Players.LocalPlayer
-        local character = localPlr.Character or LocalPlayer.CharacterAdded:Wait()
-        local humanoid = character:WaitForChild("Humanoid")
-        local hrp = character:WaitForChild("HumanoidRootPart")
-        
-    end
     
     game.Players.LocalPlayer.PlayerGui.Inventory.Enabled = true
     wait(1)
@@ -1184,92 +1070,7 @@ function pfarm()
         coroutine.resume(foreverpickup)
     end
     
-    function FrTeleportToWorld(world, area)
-        function myCoroutine(arg1, arg2)
-            local Blunder = require(game:GetService("ReplicatedStorage"):FindFirstChild("BlunderList", true))
-            local OldGet = Blunder.getAndClear
-            
-            setreadonly(Blunder, false)
-            
-            local function OutputData(Message)
-               rconsoleprint("@@RED@@")
-               rconsoleprint(Message .. "\n")
-            end
-            
-            Blunder.getAndClear = function(...)
-               local Packet = ...
-               
-               for i,v in next, Packet.list do
-                   if v.message ~= "PING" then
-                       OutputData(v.message)
-                       table.remove(Packet.list, i)
-                   end
-               end
-               
-               return OldGet(Packet)
-            end
-            
-            
-            
-            local Network = require(game:GetService("ReplicatedStorage").Library.Client.Network)
-            local Fire, Invoke = Network.Fire, Network.Invoke
-            
-            local GL = require(game:GetService("ReplicatedStorage").Framework.Library)
-            local localPlr = game.Players.LocalPlayer
-            local character = localPlr.Character or LocalPlayer.CharacterAdded:Wait()
-            local humanoid = character:WaitForChild("Humanoid")
-            
-            local library = game:GetService("ReplicatedStorage"):WaitForChild("Library");
-            local NetworkVariables = require(library.Variables)
-            local hrp = character:WaitForChild("HumanoidRootPart")
-            
-            GL.Variables.Teleporting = false;
-            
-            
-            
-
-            function TPtoMap(wtp,mtp)
-            local succ, err = pcall(function()
-            
-                
-                GL.WorldCmds.Load(wtp)
-                
-                wait(3)
-                local cframe = newMap.CFrame
-                print(cframe)
-                
-                
-            
-                
-                 
-            end)
-            
-            
-            if err then 
-            print(err)
-            end
-            
-            end
-            print("Coroutine started with arguments:", arg1, arg2)
-            TPtoMap(arg1, arg2)
-            Invoke('Request World', arg1)
-        end
     
-        co1 = coroutine.wrap(function(arg3, arg4)
-            myCoroutine(arg3, arg4)
-        end)
-    
-        co1(world, area)
-    end
-    function FrTeleportToArea(world, area)
-        local newMap = game:GetService('Workspace')["__MAP"].Teleports[area]
-        local cframe = newMap.CFrame
-        local localPlr = game.Players.LocalPlayer
-        local character = localPlr.Character or LocalPlayer.CharacterAdded:Wait()
-        local humanoid = character:WaitForChild("Humanoid")
-        local hrp = character:WaitForChild("HumanoidRootPart")
-        
-    end
     
     game.Players.LocalPlayer.PlayerGui.Inventory.Enabled = true
     wait(1)
@@ -1862,84 +1663,7 @@ function autobeatgame()
         wait(3)
     end
     
-    function FrTeleportToWorld(world, area)
-        function myCoroutine(arg1, arg2)
-            local Blunder = require(game:GetService("ReplicatedStorage"):FindFirstChild("BlunderList", true))
-            local OldGet = Blunder.getAndClear
-            
-            setreadonly(Blunder, false)
-            
-            local function OutputData(Message)
-               rconsoleprint("@@RED@@")
-               rconsoleprint(Message .. "\n")
-            end
-            
-            Blunder.getAndClear = function(...)
-               local Packet = ...
-               
-               for i,v in next, Packet.list do
-                   if v.message ~= "PING" then
-                       OutputData(v.message)
-                       table.remove(Packet.list, i)
-                   end
-               end
-               
-               return OldGet(Packet)
-            end
-            
-            
-            
-            local Network = require(game:GetService("ReplicatedStorage").Library.Client.Network)
-            local Fire, Invoke = Network.Fire, Network.Invoke
-            
-            local GL = require(game:GetService("ReplicatedStorage").Framework.Library)
-            local localPlr = game.Players.LocalPlayer
-            local character = localPlr.Character or LocalPlayer.CharacterAdded:Wait()
-            local humanoid = character:WaitForChild("Humanoid")
-            
-            local library = game:GetService("ReplicatedStorage"):WaitForChild("Library");
-            local NetworkVariables = require(library.Variables)
-            local hrp = character:WaitForChild("HumanoidRootPart")
-            
-            GL.Variables.Teleporting = false;
-            
-            
-            
-            
-
-            function TPtoMap(wtp,mtp)
-            local succ, err = pcall(function()
-            
-                
-                GL.WorldCmds.Load(wtp)
-                
-                wait(3)
-                local cframe = newMap.CFrame
-                print(cframe)
-                
-                
-            
-                
-                 
-            end)
-            
-            
-            if err then 
-            print(err)
-            end
-            
-            end
-            print("Coroutine started with arguments:", arg1, arg2)
-            TPtoMap(arg1, arg2)
-            Invoke('Request World', arg1)
-        end
     
-        co1 = coroutine.wrap(function(arg3, arg4)
-            myCoroutine(arg3, arg4)
-        end)
-    
-        co1(world, area)
-    end
     
     FrTeleportToWorld("Spawn", "Shop")
     wait(3)
