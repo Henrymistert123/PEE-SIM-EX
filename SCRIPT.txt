@@ -313,7 +313,75 @@ function indexbank()
     print("Finished Indexing.")
     Invoke("Leave Bank", bankId)
 end
-
+function depall()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(231.388885, 98.2168579, 356.876953, -0.976782918, 1.37872318e-08, 0.214231476, 2.94478699e-08, 1, 6.99101008e-08, -0.214231476, 7.45956541e-08, -0.976782918)
+    game:GetService("Players").LocalPlayer.PlayerGui.Bank.Enabled = true
+    wait(3)
+    bankId = ""
+    local inv = game:GetService("Players").LocalPlayer.PlayerGui.Inventory
+    for i,v in pairs(game.Players.LocalPlayer.PlayerGui.Bank.Frame.Side.Holder:GetChildren()) do
+    	if v:FindFirstChild("Owner") then
+    		if v.Owner.Text == "My Bank" then
+    			bankId = v.Name
+    		end
+    	end
+    end
+    local pets = {}
+    local temppets = {}
+    local count = 0
+    wait(1)
+    local Library = require(game:GetService("ReplicatedStorage").Library)
+    for i, v in pairs(Library.Save.Get().Pets) do
+        table.insert(temppets, v.uid)
+        count = count + 1
+        if count >= 49 then
+            table.insert(pets, temppets)
+            temppets = {}
+            count = 0
+        end
+    end
+    table.remove(temppets, 1)
+    table.insert(pets, temppets)
+    for i, v in pairs(pets) do
+        Invoke("Bank Deposit", bankId, v, 0)
+        inv.Enabled = true
+        wait(1)
+    end
+end
+function withall()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(231.388885, 98.2168579, 356.876953, -0.976782918, 1.37872318e-08, 0.214231476, 2.94478699e-08, 1, 6.99101008e-08, -0.214231476, 7.45956541e-08, -0.976782918)
+    game:GetService("Players").LocalPlayer.PlayerGui.Bank.Enabled = true
+    wait(3)
+    bankId = ""
+    local inv = game:GetService("Players").LocalPlayer.PlayerGui.Inventory
+    for i,v in pairs(game.Players.LocalPlayer.PlayerGui.Bank.Frame.Side.Holder:GetChildren()) do
+    	if v:FindFirstChild("Owner") then
+    		if v.Owner.Text == "My Bank" then
+    			bankId = v.Name
+    		end
+    	end
+    end
+    local pets = {}
+    local temppets = {}
+    local count = 0
+    wait(1)
+    local Library = require(game:GetService("ReplicatedStorage").Library)
+    for i, v in pairs(Invoke("Get Bank", bankId).Storage.Pets) do
+        table.insert(temppets, v.uid)
+        count = count + 1
+        if count >= 49 then
+            table.insert(pets, temppets)
+            temppets = {}
+            count = 0
+        end
+    end
+    table.insert(pets, temppets)
+    for i, v in pairs(pets) do
+        Invoke("Bank Withdraw", bankId, v, 0)
+        inv.Enabled = true
+        wait(1)
+    end
+end
 function fruitfarm()
     local TimeElapsed = 0
     local ThingsBroke = 0
@@ -2547,6 +2615,21 @@ IndexSection:AddButton({
     Name = "Accept First Invite And And Index All Pets",
     Callback = function()
         pcall(indexbank())
+    end
+})
+local AllDepWithSection = BankTab:AddSection({
+    Name = "Withdraw/Deposit All"
+})
+AllDepWithSection:AddButton({
+    Name = "Deposit All",
+    Callback = function()
+        pcall(depall())
+    end
+})
+AllDepWithSection:AddButton({
+    Name = "Withdraw All",
+    Callback = function()
+        pcall(withall())
     end
 })
 local BoostTab = Window:MakeTab({
