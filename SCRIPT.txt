@@ -93,6 +93,11 @@ Settings = {
         Level = 1,
         Royalty = false,
         Enabled = false
+    },
+    Gems = {
+        Enabled = false,
+        Webhook = "",
+        Interval = 60
     }
 }
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -3022,6 +3027,154 @@ AutoIndexSection:AddButton({
     Callback = function()
         startindex()
     end
+})
+
+local GemTab = Window:MakeTab({
+	Name = "⭐ Gem Farming",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+gemsco = coroutine.create(function()
+    while 1 do
+        wait()
+        if Settings.Gems.Enabled then
+            AllCoins = Invoke("Get Coins")
+            allwantedcoins = {}
+            for i, v in pairs(AllCoins) do
+                if v.a == "Mystic Mine" then
+                    table.insert(allwantedcoins, {id = i, health = v.h})
+                end
+            end
+            
+            for i = #allwantedcoins, 2, -1 do
+                local j = math.random(i)
+                allwantedcoins[i], allwantedcoins[j] = allwantedcoins[j], allwantedcoins[i]
+            end
+            local Library = require(game:GetService("ReplicatedStorage").Library)
+            EquippedPets = Library.Save.Get().PetsEquipped
+            count = 1
+            for i,v in pairs(EquippedPets) do
+                newco = coroutine.create(function()
+                    coin = allwantedcoins[count]
+                    local v86 = Invoke("Join Coin", coin.id, {i})
+                    for v88, v89 in pairs(v86) do
+                        Fire("Farm Coin", coin.id, v88);
+                    end
+                end)
+                coroutine.resume(newco)
+                count = count + 1
+                
+                wait()
+            end
+        end
+    end
+end)
+coroutine.resume(gemsco)
+GemTab:AddToggle({
+    Name = "Auto Farm Gems (MUST BE IN MYSTIC MINE)",
+    Default = false,
+    Callback = function(Value)
+        Settings.Gems.Enabled = Value
+    end
+})
+StatTracker = GemTab:AddSection({
+    Name = "Stats Tracker"
+})
+StatTracker:AddTextbox({
+    Name = "Webhook",
+    Default = "",
+    TextDisappear = false,
+    Callback = function(Value)
+        Settings.Gems.Webhook = Value
+    end
+})
+statrout = coroutine.create(function()
+    HttpService = game:GetService("HttpService")
+    local Library = require(game:GetService("ReplicatedStorage").Library)
+    local TimeElapsed = 0
+    local GemsEarned = 0
+    local TotalGemsEarned = 0
+    local timer = coroutine.create(function()
+        while 1 do
+            TimeElapsed = TimeElapsed + 1
+            wait(1)
+        end
+    end)
+    coroutine.resume(timer)
+    AREATOCHECK = "Mystic Mine"
+    function add_suffix(inte)
+        local gems = inte
+        local gems_formatted
+
+        if gems >= 1000000000000 then  -- if gems are greater than or equal to 1 trillion
+            gems_formatted = string.format("%.1ft", gems / 1000000000000)  -- display gems in trillions with one decimal point
+        elseif gems >= 1000000000 then  -- if gems are greater than or equal to 1 billion
+            gems_formatted = string.format("%.1fb", gems / 1000000000)  -- display gems in billions with one decimal point
+        elseif gems >= 1000000 then  -- if gems are greater than or equal to 1 million
+            gems_formatted = string.format("%.1fm", gems / 1000000)  -- display gems in millions with one decimal point
+        elseif gems >= 1000 then  -- if gems are greater than or equal to 1 thousand
+            gems_formatted = string.format("%.1fk", gems / 1000)  -- display gems in thousands with one decimal point
+        else  -- if gems are less than 1 thousand
+            gems_formatted = tostring(gems)  -- display gems as is
+        end
+
+        return gems_formatted
+    end
+
+    function WH()
+        request({
+            Url = Settings.Gems.Webhook,
+            Method = "POST",
+            Headers = {
+                ["Content-Type"] = "application/json"
+            },
+            Body = HttpService:JSONEncode{
+                ["content"] = "",
+                ["embeds"] = {
+                    {
+                    ["title"] = "Gem Stat Update",
+                    ["description"] = "Here is your stat update! (every " .. tostring(Settings.Gems.Interval) .. "s)!",
+                    ["color"] = 5814783,
+                    ["fields"] = {
+                        {
+                        ["name"] = "Stats",
+                        ["value"] = "🕐 **Farming For:** ``" .. tostring(TimeElapsed) .. "s``\n💎 **Gems Earned (" .. tostring(Interval) .. "s):** ``" .. tostring(add_suffix(GemsEarned)) .. "``\n🗺️ **Farming:** ``" .. AREATOCHECK .. "``\n💎 **Total Gems Earned:** ``" .. add_suffix(TotalGemsEarned) .. "``"
+                        }
+                    },
+                    ["author"] = {
+                        ["name"] = "Mystic Farmer - Stats"
+                    }
+                    }
+                }
+                }
+        })
+    end
+
+    while 1 do
+        local StartingGems = Library.Save.Get().Diamonds
+        wait(Settings.Gems.Interval)
+        local EndingGems = Library.Save.Get().Diamonds
+        GemsEarned = EndingGems - StartingGems
+        local fileContent = readfile("gems.txt")
+        if fileContent then
+            TotalGemsEarned = GemsEarned + tonumber(fileContent)
+        end
+        writefile("gems.txt", tostring(TotalGemsEarned))
+        pcall(WH)
+    end
+end)
+coroutine.resume(statrout)
+StatTracker:AddSlider({
+	Name = "Interval",
+	Min = 10,
+	Max = 600,
+	Default = 30,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 5,
+	ValueName = "Seconds",
+	Callback = function(Value)
+		Settings.Gems.Interval = Value
+	end    
 })
 coroutine.resume(dupedeleteco)
 OrionLib:Init()
